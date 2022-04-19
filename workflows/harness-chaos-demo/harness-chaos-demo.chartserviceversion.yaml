@@ -34,5 +34,5 @@ spec:
     - name: Documentation
       url: https://github.com/chaosnative/harness-chaos-demo
   icon:
-    - url: https://raw.githubusercontent.com/chaosnative/harness-chaos-demo/master/workflows/harness-chaos-demo/icons/harness-chaos-demo.png
+    - url: https://raw.githubusercontent.com/chaosnative/harness-chaos-demo/main/workflows/harness-chaos-demo/icons/harness-chaos-demo.png
       mediatype: image/png
