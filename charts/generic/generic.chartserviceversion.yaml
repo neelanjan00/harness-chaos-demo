@@ -14,52 +14,16 @@ spec:
 
   experiments:
     - pod-delete
-    - container-kill
-    - pod-cpu-hog
-    - pod-network-loss
-    - pod-network-latency
-    - pod-network-corruption
-    - node-drain
-    - node-cpu-hog
-    - disk-fill
-    - node-memory-hog
-    - pod-memory-hog
-    - kubelet-service-kill
-    - pod-network-duplication
-    - node-taint
-    - docker-service-kill
-    - pod-autoscaler
-    - byoc-pod-delete
-    - node-io-stress
-    - pod-io-stress
-    - node-restart
-    - pod-dns-error
-    - pod-dns-spoof
-    - pod-cpu-hog-exec
-    - pod-memory-hog-exec
-    - pod-network-partition
   keywords:
     - Kubernetes
-    - K8S
-    - Container
-    - Node
+    - K8s
     - Pod
-    - Disk
-    - IO
-    - Filesystem
-    - Network
-    - CPU
-    - Memory
-    - Stress
-    - Service
-    - DNS
-    - Scale
   maintainers:
     - name: ksatchit
       email: karthik.s@mayadata.io
   minKubeVersion: 1.12.0
   provider:
-    name: Mayadata
+    name: Harness
   links:
     - name: Kubernetes Website
       url: https://kubernetes.io
