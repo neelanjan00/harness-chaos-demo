@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: platform-demo-headless
+  namespace: platform-demo
+  labels:
+    app: platform-demo
+spec:
+  ports:
+  - port: 8000
+    name: web
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app: platform-demo
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: platform-demo
+  namespace: platform-demo
+spec:
+  serviceName: "platform-demo-headless"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platform-demo
+  template:
+    metadata:
+      labels:
+        app: platform-demo
+    spec:
+      initContainers:
+      - name: php-data-permission-fix
+        image: busybox
+        command: ["/bin/sh","-c"]
+        args: ["/bin/chmod -R 777 /data-ext && mkdir -p /data-ext/sessions && /bin/chmod -R 777 /data-ext"]
+        volumeMounts:
+        - name: volume
+          mountPath: /data-ext
+      containers:
+      - name: platform-demo
+        image: ksatchit/platform-demo:latest
+        ports:
+        - containerPort: 8000
+          name: platform-demo
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        volumeMounts:
+        - name: volume
+          mountPath: /data-ext
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+  volumeClaimTemplates:
+  - metadata:
+      name: volume
+      namespace: platform-demo
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
+

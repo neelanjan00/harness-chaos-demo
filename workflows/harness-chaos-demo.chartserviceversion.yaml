@@ -1,0 +1,38 @@
+apiVersion: litmuchaos.io/v1alpha1
+kind: ChartServiceVersion
+metadata:
+  createdAt: 2022-19-04T10:28:08Z
+  name: harness-chaos-demo
+  version: 0.1.0
+  annotations:
+    categories: captain-canary-webapp
+    chartDescription: Injects pod kill chaos on captain-canary web-application.
+spec:
+  displayName: Harness-Chaos-Demo
+  categoryDescription: >
+    Simple chaos workflows against captain-canary webapp for illustrat the power of chaos engineering
+  experiments:
+    - pod-delete
+  keywords:
+    - Captain-Canary
+    - WebApp
+    - Pod
+  platforms:
+    - GKE
+    - Minikube
+    - Packet(Kubeadm)
+    - EKS
+    - AKS
+  maintainers:
+    - name: karthik
+      email: karthik.s@harness.io
+  provider:
+    name: Harness
+  links:
+    - name: Harness Slack
+      url: https://harness.slack.com
+    - name: Documentation
+      url: https://github.com/chaosnative/harness-chaos-demo
+  icon:
+    - url: https://raw.githubusercontent.com/chaosnative/harness-chaos-demo/master/workflows/icons/harness-chaos-demo.png
+      mediatype: image/png

@@ -1,0 +1,1 @@
+kubectl scale sts platform-demo --replicas=2 -n platform-demo 
