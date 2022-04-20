@@ -10,7 +10,7 @@
 
 
 ## Introduction
-Simple Demo Block for Harness Chaos Engineering (standalone). 
+Simple Demo Block for Harness Chaos Engineering (standalone) to show salient platform features, centered around a sample application. 
 
 ## Environment
 The demo has been tested on GKE with Kubernetes v1.21.x. It should ideally work on other Kubernetes clusters equally well, 
