@@ -1,4 +1,14 @@
-# harness-chaos-demo
+##### Table of Contents
+- [Introduction](#introduction)
+- [Environment](#environment)
+- [Credits](#credits)
+- [Prerequisites](#prerequisites)
+- [Pre-Demo](#pre-demo)
+- [Demo-Part-A: Run A Chaos Workflow (Pod Kill With Availability Check) To Test Resilience](#demo-part-a-run-a-chaos-workflow-pod-kill-with-availability-check-to-test-resilience)
+- [Demo-Part-B: Convert A Chaos Workflow To A Pre-Defined Workflow](demo-part-b-convert-a-chaos-workflow-to-a-pre-defined-workflow)
+
+
+## Introduction
 Simple Demo Block for Harness Chaos Engineering (standalone). 
 
 ## Environment
@@ -110,8 +120,8 @@ The following aspects were covered:
 
 ### Objective
 
-Demonstrate how a chaos workflow which has been tested for desired impact (such as the one built  in [Demo-Part-A]()) can be converted into a 
-"Pre-defined Workflow" and stored in a Git repo for on-demand/ready execution whenever needed. 
+Demonstrate how a chaos workflow which has been tested for desired impact (such as the one built  in [Demo-Part-A](https://github.com/chaosnative/harness-chaos-demo#demo-part-a-run-a-chaos-workflow-pod-kill-with-availability-check-to-test-resilience)) can be converted into a "Pre-defined Workflow" and stored in a 
+Git repo for on-demand/ready execution whenever needed. 
 
 
 
