@@ -166,6 +166,7 @@ This feature helps organizations/users created a dedicated (public/private) chao
 - Add prometheus probe to the harness-chaos-demo workflow
 - Include a synthetic load-gen (fortio/locust) & add demo scenarios for CPU/Mem hog showing perf drops (simulate app slowness via resource starvation, noisy-neighbour issues) **(Demo-Part-C)**
 - Chaos invoked from within a Harness pipeline stage (automated chaos invocation) (running workflow sans any real platform integration, i.e., by leveraging current standalone HCE instance) **(Demo-Part-D)**
+- Provide 5-min video recordings for the Pre-Demo/Overview & Demo(s) (PartA-PartD)
 
 
   
