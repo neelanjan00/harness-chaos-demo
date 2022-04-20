@@ -6,7 +6,7 @@ The demo has been tested on GKE with Kubernetes v1.21.x. It should ideally work 
 with minor changes to service type (NodePort/Loadbalancer/Ingress)
 
 ## Credits
-The sample Kubernetes application used in this demo is originally from @ecointet-harness's [platform-demo](https://github.com/wings-software/platform-demo2) with some minor tweaks to the container image and installation manifest (app deployed as a statefulset with PVs from a default storage class as opposed to a deployment using GCS bucket). 
+The sample Kubernetes application used in this demo is originally from **@ecointet-harness**'s [platform-demo](https://github.com/wings-software/platform-demo2) with some minor tweaks to the container image and installation manifest (app deployed as a statefulset with PVs from a default storage class as opposed to a deployment using GCS bucket). 
 
 *Note: The choice of app is to maintain some level of consistency with the standard Harness (CI/CD/FF/CCM) demos, so that the demo-artifacts can be reused even after HCE is fully integrated as a module within the Harness platform.*
 
@@ -29,7 +29,89 @@ The sample Kubernetes application used in this demo is originally from @ecointet
   ![image](https://user-images.githubusercontent.com/21166217/164219892-3480572f-2a14-4eaf-91e9-bb9f9aab26a8.png)
   ![image](https://user-images.githubusercontent.com/21166217/164220267-17160244-d633-4ae5-af7a-699cc388e7e0.png)
   ![image](https://user-images.githubusercontent.com/21166217/164220170-c94b9956-a225-44b7-ae45-2711fb773475.png)
+  
+## Pre-Demo
 
+Before getting into the chaos runs & post-chaos actions on the platform, the users can be given a quick tour of the dashboard: with a few pointers
+provided on the chaos-agents, chaoshub(s) and user-management/teaming capabilities. 
+
+## Demo-Part-A: Run A Chaos Workflow (Pod Kill With Availability Check) To Test Resilience
+
+### Objective
+
+Demonstrate how a chaos workflow can be constructed by picking a suitable fault (chaosexperiment) from the ChaosHub (in this case: generic/pod-delete) 
+and adding a probe (in this case: httpProbe) to validate our hypothesis around application availability and performance. 
+
+### Chaos Particulars
+
+Scenario|Hypothesis|SLI |SLO|
+--------|----------|----|---|
+Kill the web-app replica| The pod is rescheduled & up immediately. There is no loss of access| `avg_over_time(probe_success{job="prometheus-blackbox-exporter", namespace="monitoring"}[60s:1s]) * 100`| > 99.95%
+
+**Probe-Definition**: 
+
+```yaml
+probe:
+- name: platform-website-check
+  type: httpProbe
+  mode: Continuous
+  runProperties:
+    probeTimeout: 5
+    retry: 2
+    interval: 5
+    probePollingInterval: 1
+    initialDelaySeconds: 1
+    stopOnFailure: false
+  httpProbe/inputs:
+    url: http://platform-demo.platform-demo.svc.cluster.local:8000/
+    insecureSkipVerify: false
+    method:
+      get:
+        criteria: ==
+        responseCode: "200"
+```
+
+### Observation
+
+- The app replica is rescheduled but is not available/ready for requests immediately due to some initialDelay period/startup time. 
+
+  ![image](https://user-images.githubusercontent.com/21166217/164224265-571192c4-704d-4a37-badd-bb8962fd2305.png)
+
+- There is loss of access to the app for nearly 60s 
+
+  ![image](https://user-images.githubusercontent.com/21166217/164224992-64e54f51-44ed-4294-80b9-74d3e61e3c5c.png)
+
+- The HTTP probe & thereby the chaos-workflow is seen to fail 
+
+  ![image](https://user-images.githubusercontent.com/21166217/164225249-96b98fdc-b804-4bd9-add4-3ea8d0a2ed33.png)
+
+  ![image](https://user-images.githubusercontent.com/21166217/164225109-1c4aea00-c8c6-4ed5-8d0a-be88f0478f4c.png)
+
+### Mitigation
+
+[Scale](https://github.com/chaosnative/harness-chaos-demo/blob/main/scripts/scale-webapp) the application to multiple replicas.
+
+With this, the hypothesis is validated successfully & chaos workflow is seen to succeed.
+
+![image](https://user-images.githubusercontent.com/21166217/164227634-36e9be84-fc89-435d-b0d5-87f74fae3187.png)
+
+![image](https://user-images.githubusercontent.com/21166217/164227451-867662f8-5b05-48c7-95fb-09738dd9efcb.png)
+
+![image](https://user-images.githubusercontent.com/21166217/164227258-3739a19e-3c65-4e24-97be-d2bfbaf15d6d.png)
+
+### Summary
+
+The following aspects were covered: 
+
+- The procedure to construct and execute a chaos-workflow against a desired agent with specific hypothesis (via probes) 
+- Viewing chaos metrics, logs & workflow status  
+
+## Demo-Part-B: Convert A Chaos Workflow To A Pre-Defined Workflow
+
+### Objective
+
+Demonstrate how a chaos workflow which has been tested for desired impact (such as the one built  in [Demo-Part-A]()) can be converted into a 
+"Pre-defined Workflow" and stored in a Git repo for on-demand/ready execution whenever needed. 
 
 
 
