@@ -5,7 +5,7 @@
 - [Prerequisites](#prerequisites)
 - [Pre-Demo](#pre-demo)
 - [Demo-Part-A: Run A Chaos Workflow (Pod Kill With Availability Check) To Test Resilience](#demo-part-a-run-a-chaos-workflow-pod-kill-with-availability-check-to-test-resilience)
-- [Demo-Part-B: Convert A Chaos Workflow To A Pre-Defined Workflow](demo-part-b-convert-a-chaos-workflow-to-a-pre-defined-workflow)
+- [Demo-Part-B: Convert A Chaos Workflow To A Pre-Defined Workflow](#demo-part-b-convert-a-chaos-workflow-to-a-pre-defined-workflow)
 
 
 ## Introduction
@@ -122,6 +122,47 @@ The following aspects were covered:
 
 Demonstrate how a chaos workflow which has been tested for desired impact (such as the one built  in [Demo-Part-A](https://github.com/chaosnative/harness-chaos-demo#demo-part-a-run-a-chaos-workflow-pod-kill-with-availability-check-to-test-resilience)) can be converted into a "Pre-defined Workflow" and stored in a 
 Git repo for on-demand/ready execution whenever needed. 
+
+This feature helps organizations/users created a dedicated (public/private) chaos artifact source with custom workflow templates mapped to specific reliability-test scenarios. 
+
+### Steps to create pre-defined workflow
+
+- Create a Git repository (public/private) 
+
+- Download the workflow manifest from chaos-center (click the three-dots against the desired workflow in the "Schedules" tab of the "Litmus Workflows" page) 
+  ![image](https://user-images.githubusercontent.com/21166217/164232626-b0cf7d1f-6573-4a85-87ae-c08b270d620a.png)
+
+- Remove the entries in the `metadata.labels` section of `Workflow` resource as well as the `metadata.labels` section of the `ChaosEngine` resource(s) embedded 
+  input artifact(s) in one or more `template` definitions of the workflow
+  
+- Place it in the git repository under a `workflows` parent directory (as in [this](https://github.com/chaosnative/harness-chaos-demo/tree/main/workflows) repo), 
+  under a folder named appropriately (hereby referred as _workflow-folder_), alongside a `ChartServiceVersion` YAML file (such as [this](https://github.com/chaosnative/harness-chaos-demo/blob/main/workflows/harness-chaos-demo/harness-chaos-demo.chartserviceversion.yaml) one) that describes the workflow. 
+  
+  *Note: Ensure that the chartserviceversion yaml is named `<workflow-folder-name>-chartserviceversion.yaml`* 
+  
+- (Optional) Create an `icons` folder inside the `workflows` parent directory (such as [this](https://github.com/chaosnative/harness-chaos-demo/tree/main/workflows/icons) one) and place a desired image (.png) in it with the same name as the _workflow-folder_
+
+- Place the [charts](https://github.com/chaosnative/harness-chaos-demo/tree/main/charts) directory at the repo root, alongside the `workflows` parent directory. 
+
+- Add a new ChaosHub on chaos-center pointing to the git chaos artifact source 
+
+  ![image](https://user-images.githubusercontent.com/21166217/164237438-faa13533-1571-4542-9663-50ae25ecb448.png)
+  ![image](https://user-images.githubusercontent.com/21166217/164238021-5422363d-4e96-4956-87fc-2a71e0e981cd.png)
+  
+- Browse the newly added ChaosHub to view the pre-defined workflow available for execution: 
+
+  ![image](https://user-images.githubusercontent.com/21166217/164238237-6d6a1045-2491-4cb4-ab0c-36c69f317240.png)
+  
+- Schedule a chaos workflow run using the *pre-defined workflow template* option in the chaos workflow construction wizard
+
+  ![image](https://user-images.githubusercontent.com/21166217/164238611-afaf3964-60ae-45c9-b779-01ff492ebca9.png)
+
+
+  
+
+
+
+
 
 
 
