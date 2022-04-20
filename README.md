@@ -19,7 +19,7 @@ with minor changes to service type (NodePort/Loadbalancer/Ingress)
 ## Credits
 The sample Kubernetes application used in this demo is originally from **@ecointet-harness**'s [platform-demo](https://github.com/wings-software/platform-demo2) with some minor tweaks to the container image and installation manifest (app deployed as a statefulset with PVs from a default storage class as opposed to a deployment using GCS bucket). 
 
-*Note: The choice of app is to maintain some level of consistency with the standard Harness (CI/CD/FF/CCM) demos, so that the demo-artifacts can be reused even after HCE is fully integrated as a module within the Harness platform.*
+*Note: The reason for choice of app is to maintain some level of consistency with the standard Harness (CI/CD/FF/CCM) demos, so that the demo-artifacts can be reused even after HCE is fully integrated as a module within the Harness platform.*
 
 ## Prerequisites 
 - Prepare your Kubernetes cluster
@@ -28,7 +28,7 @@ The sample Kubernetes application used in this demo is originally from **@ecoint
   cluster to run the control plane microservices. Setup access to the dashboard via the right service type. 
 - Login to chaos-center dashboard with admin credentials (`admin/litmus`) and verify successful connect of the `Self-Agent`
 - Setup monitoring infra using Prometheus & Grafana ([kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) 
-  helm chart is a great way to achive this)
+  helm chart is a great way to achieve this)
 - Setup the blackbox-exporter in order to start capturing the basic accessibility attributes of the Captain Canary Web App (this includes running the blackbox 
   exporter [deployment/service](https://github.com/chaosnative/harness-chaos-demo/blob/main/k8s/monitoring/blackbox-exporter.yaml) & creating the [servicemonitor](https://github.com/chaosnative/harness-chaos-demo/blob/main/k8s/monitoring/servicemonitor-blackbox-exporter.yaml) against it)
 - Begin scraping the Chaos metrics by creating the servicemonitor aginst the [chaos-exporter](https://github.com/chaosnative/harness-chaos-demo/blob/main/k8s/monitoring/servicemonitor-chaos-exporter.yaml) service (installed automagically as part of the Self-Agent setup)
