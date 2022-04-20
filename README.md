@@ -135,6 +135,9 @@ This feature helps organizations/users created a dedicated (public/private) chao
 - Remove the entries in the `metadata.labels` section of `Workflow` resource as well as the `metadata.labels` section of the `ChaosEngine` resource(s) embedded 
   input artifact(s) in one or more `template` definitions of the workflow
   
+  ![image](https://user-images.githubusercontent.com/21166217/164239712-bb5064a4-6b44-45c0-a335-a53e874a2c56.png)
+  ![image](https://user-images.githubusercontent.com/21166217/164239947-3c789986-98cc-4faf-a3b3-b0800c742518.png)
+  
 - Place it in the git repository under a `workflows` parent directory (as in [this](https://github.com/chaosnative/harness-chaos-demo/tree/main/workflows) repo), 
   under a folder named appropriately (hereby referred as _workflow-folder_), alongside a `ChartServiceVersion` YAML file (such as [this](https://github.com/chaosnative/harness-chaos-demo/blob/main/workflows/harness-chaos-demo/harness-chaos-demo.chartserviceversion.yaml) one) that describes the workflow. 
   
