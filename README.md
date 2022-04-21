@@ -41,6 +41,17 @@ The sample Kubernetes application used in this demo is originally from **@ecoint
   ![image](https://user-images.githubusercontent.com/21166217/164220267-17160244-d633-4ae5-af7a-699cc388e7e0.png)
   ![image](https://user-images.githubusercontent.com/21166217/164220170-c94b9956-a225-44b7-ae45-2711fb773475.png)
   
+## If You Are Using the Free Harness Chaos SaaS Platform
+
+- Signup via google 
+- Download Access Key & ID 
+- Download chaosctl binary for your OS
+- Follow instructions to extact the binary & install
+- Perform `chaosctl set account` with access key/id
+- Install the chaos agent and connect your cluster to the SaaS control plane (use chaosctl install agent cmd in non interactive mode)
+- Construct and run Chaos Workflow 
+- Add hub git source & run the pre-defined workflow
+  
 ## Pre-Demo
 
 Before getting into the chaos runs & post-chaos actions on the platform, the users can be given a quick tour of the dashboard: with a few pointers
