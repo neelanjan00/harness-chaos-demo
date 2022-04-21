@@ -211,8 +211,8 @@
     "list": []
   },
   "time": {
-    "from": "2022-04-18T15:19:49.514Z",
-    "to": "2022-04-18T15:23:38.774Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",

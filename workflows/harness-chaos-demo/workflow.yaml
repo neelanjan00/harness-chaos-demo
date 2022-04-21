@@ -5,7 +5,7 @@ metadata:
   namespace: litmus
 spec:
   templates:
-    - name: custom-chaos
+    - name: argowf-chaos
       inputs: {}
       outputs: {}
       metadata: {}
@@ -226,6 +226,7 @@ spec:
                               stopOnFailure: false
                             httpProbe/inputs:
                               url: http://platform-demo.platform-demo.svc.cluster.local:8000/
+                              responseTimeout: 100
                               insecureSkipVerify: false
                               method:
                                 get:
@@ -243,7 +244,7 @@ spec:
           - -file=/tmp/chaosengine-pod-delete.yaml
           - -saveName=/tmp/engine-name
         resources: {}
-  entrypoint: custom-chaos
+  entrypoint: argowf-chaos
   arguments:
     parameters:
       - name: adminModeNamespace

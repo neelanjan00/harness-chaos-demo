@@ -19,6 +19,8 @@ kind: StatefulSet
 metadata:
   name: platform-demo
   namespace: platform-demo
+  labels:
+    app: platform-demo
 spec:
   serviceName: "platform-demo-headless"
   replicas: 1
