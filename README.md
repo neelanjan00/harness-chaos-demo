@@ -49,8 +49,6 @@ The sample Kubernetes application used in this demo is originally from **@ecoint
 - Follow instructions to extact the binary & install
 - Perform `chaosctl set account` with access key/id
 - Install the chaos agent and connect your cluster to the SaaS control plane (use chaosctl install agent cmd in non interactive mode)
-- Construct and run Chaos Workflow 
-- Add hub git source & run the pre-defined workflow
   
 ## Pre-Demo
 
