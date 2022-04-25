@@ -24,7 +24,7 @@ The sample Kubernetes application used in this demo is originally from **@ecoint
 ## Prerequisites 
 - Prepare your Kubernetes cluster
 - Apply the Kubernetes manifests to install the [Captain Canary Web Application](https://github.com/chaosnative/harness-chaos-demo/tree/main/k8s/web-app)
-- Download the  [Harness Chaos Engineering (Standalone)](http://hce.chaosnative.com/manifests/ci/hce-cluster-scope.yaml) installation manifest & apply on the 
+- Download the  [Harness Chaos Engineering (Standalone)](https://hce.chaosnative.com/manifests/2.8.0/hce-cluster-scope.yaml) installation manifest & apply on the 
   cluster to run the control plane microservices. Setup access to the dashboard via the right service type. 
 - Login to chaos-center dashboard with admin credentials (`admin/litmus`) and verify successful connect of the `Self-Agent`
 - Setup monitoring infra using Prometheus & Grafana ([kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack) 
