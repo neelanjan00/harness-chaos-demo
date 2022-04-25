@@ -42,7 +42,7 @@ spec:
           mountPath: /data-ext
       containers:
       - name: platform-demo
-        image: ksatchit/platform-demo:latest
+        image: amitkrdas/platform-demo:latest
         ports:
         - containerPort: 8000
           name: platform-demo
