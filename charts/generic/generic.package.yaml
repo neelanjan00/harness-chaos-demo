@@ -1,8 +1,5 @@
 packageName: generic
 experiments:
-  - name: pod-delete
-    CSV: pod-delete.chartserviceversion.yaml
-    desc: "pod-delete"
   - name: harness-pod-chaos-demo
     CSV: harness-pod-chaos-demo.chartserviceversion.yaml
     desc: "fake-experiment-demo"
