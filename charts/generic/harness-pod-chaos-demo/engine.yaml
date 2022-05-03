@@ -9,6 +9,7 @@ spec:
   appinfo:
     appns: 'litmus'
     applabel: 'name=chaos-demo'
+    appkind: 'deployment'
   engineState: 'active'
   auxiliaryAppInfo: ''
   chaosServiceAccount: litmus-admin
