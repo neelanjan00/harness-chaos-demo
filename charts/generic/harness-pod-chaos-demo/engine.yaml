@@ -8,8 +8,8 @@ spec:
   defaultAppHealthCheck: "false"
   appinfo:
     appns: 'litmus'
-    applabel: 'name=chaos-demo'
-    appkind: 'deployment'
+    applabel: 'app=platform-demo'
+    appkind: 'statefulset'
   engineState: 'active'
   auxiliaryAppInfo: ''
   chaosServiceAccount: litmus-admin
