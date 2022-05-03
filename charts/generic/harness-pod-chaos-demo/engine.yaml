@@ -7,7 +7,7 @@ spec:
   annotationCheck: "false"
   defaultAppHealthCheck: "false"
   appinfo:
-    appns: 'litmus'
+    appns: 'platform-demo'
     applabel: 'app=platform-demo'
     appkind: 'statefulset'
   engineState: 'active'
