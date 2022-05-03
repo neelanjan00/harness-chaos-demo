@@ -1,0 +1,25 @@
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: demo-chaos
+  namespace: litmus
+spec:
+  annotationCheck: "false"
+  appinfo:
+    appns: 'litmus'
+    applabel: 'name=chaos-demo'
+  engineState: 'active'
+  auxiliaryAppInfo: ''
+  chaosServiceAccount: litmus-admin
+  jobCleanUpPolicy: 'retain'
+  experiments:
+    - name: harness-pod-kill-failure
+      spec:
+        components:
+          env:
+            - name: TOTAL_CHAOS_DURATION
+              value: '10'
+            - name: CHAOS_INJECT_COMMAND
+              value: 'ls'
+            - name: CHAOS_KILL_COMMAND
+              value: 'ls'
