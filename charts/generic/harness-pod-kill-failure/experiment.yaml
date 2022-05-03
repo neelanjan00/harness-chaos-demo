@@ -1,0 +1,129 @@
+apiVersion: litmuschaos.io/v1alpha1
+description:
+  message: |
+    Injects cpu consumption on pods belonging to an app deployment
+kind: ChaosExperiment
+metadata:
+  labels:
+    app.kubernetes.io/component: chaosexperiment
+    app.kubernetes.io/part-of: litmus
+    app.kubernetes.io/version: 2.8.0
+  name: harness-pod-kill-failure
+  namespace: litmus
+spec:
+  definition:
+    args:
+    - -c
+    - ./experiments -name chaos-demo
+    command:
+    - /bin/bash
+    env:
+    - name: TOTAL_CHAOS_DURATION
+      value: "5"
+    image: litmuschaos/go-runner:fakedemo
+    imagePullPolicy: IfNotPresent
+    labels:
+      app.kubernetes.io/component: experiment-job
+      app.kubernetes.io/part-of: litmus
+      app.kubernetes.io/version: 2.8.0
+    permissions:
+    - apiGroups:
+      - ""
+      resources:
+      - pods
+      verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - deletecollection
+    - apiGroups:
+      - ""
+      resources:
+      - events
+      verbs:
+      - create
+      - get
+      - list
+      - patch
+      - update
+    - apiGroups:
+      - ""
+      resources:
+      - configmaps
+      verbs:
+      - get
+      - list
+    - apiGroups:
+      - ""
+      resources:
+      - pods/log
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - pods/exec
+      verbs:
+      - get
+      - list
+      - create
+    - apiGroups:
+      - apps
+      resources:
+      - deployments
+      - statefulsets
+      - replicasets
+      - daemonsets
+      verbs:
+      - list
+      - get
+    - apiGroups:
+      - apps.openshift.io
+      resources:
+      - deploymentconfigs
+      verbs:
+      - list
+      - get
+    - apiGroups:
+      - ""
+      resources:
+      - replicationcontrollers
+      verbs:
+      - get
+      - list
+    - apiGroups:
+      - argoproj.io
+      resources:
+      - rollouts
+      verbs:
+      - list
+      - get
+    - apiGroups:
+      - batch
+      resources:
+      - jobs
+      verbs:
+      - create
+      - list
+      - get
+      - delete
+      - deletecollection
+    - apiGroups:
+      - litmuschaos.io
+      resources:
+      - chaosengines
+      - chaosexperiments
+      - chaosresults
+      verbs:
+      - create
+      - list
+      - get
+      - patch
+      - update
+      - delete
+    scope: Namespaced
