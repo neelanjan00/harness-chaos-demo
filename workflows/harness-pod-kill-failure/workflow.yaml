@@ -1,0 +1,224 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  name: demo-wf-1651154706
+  namespace: litmus
+  labels:
+    subject: demo-wf_litmus
+spec:
+  arguments:
+    parameters:
+      - name: adminModeNamespace
+        value: litmus
+  entrypoint: argowf-chaos
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+  serviceAccountName: argo-chaos
+  templates:
+    - name: argowf-chaos
+      steps:
+        - - name: install-chaos-experiments
+            template: install-chaos-experiments
+        - - name: pod-delete
+            template: pod-delete
+        - - name: revert-chaos
+            template: revert-chaos
+    - name: install-chaos-experiments
+      inputs:
+        artifacts:
+          - name: chaos-demo-serial-a
+            path: /tmp/chaos-demo-serial-a.yaml
+            raw:
+              data: >
+                apiVersion: litmuschaos.io/v1alpha1
+
+                description:
+                  message: |
+                    Injects cpu consumption on pods belonging to an app deployment
+                kind: ChaosExperiment
+
+                metadata:
+                  name: "pod-kill-{{workflow.creationTimestamp.H}}-{{workflow.creationTimestamp.M}}-{{workflow.creationTimestamp.S}}"
+                  labels:
+                    app.kubernetes.io/part-of: litmus
+                    app.kubernetes.io/component: chaosexperiment
+                    app.kubernetes.io/version: 2.8.0
+                spec:
+                  definition:
+                    scope: Namespaced
+                    permissions:
+                      - apiGroups:
+                          - ""
+                        resources:
+                          - pods
+                        verbs:
+                          - create
+                          - delete
+                          - get
+                          - list
+                          - patch
+                          - update
+                          - deletecollection
+                      - apiGroups:
+                          - ""
+                        resources:
+                          - events
+                        verbs:
+                          - create
+                          - get
+                          - list
+                          - patch
+                          - update
+                      - apiGroups:
+                          - ""
+                        resources:
+                          - configmaps
+                        verbs:
+                          - get
+                          - list
+                      - apiGroups:
+                          - ""
+                        resources:
+                          - pods/log
+                        verbs:
+                          - get
+                          - list
+                          - watch
+                      - apiGroups:
+                          - ""
+                        resources:
+                          - pods/exec
+                        verbs:
+                          - get
+                          - list
+                          - create
+                      - apiGroups:
+                          - apps
+                        resources:
+                          - deployments
+                          - statefulsets
+                          - replicasets
+                          - daemonsets
+                        verbs:
+                          - list
+                          - get
+                      - apiGroups:
+                          - apps.openshift.io
+                        resources:
+                          - deploymentconfigs
+                        verbs:
+                          - list
+                          - get
+                      - apiGroups:
+                          - ""
+                        resources:
+                          - replicationcontrollers
+                        verbs:
+                          - get
+                          - list
+                      - apiGroups:
+                          - argoproj.io
+                        resources:
+                          - rollouts
+                        verbs:
+                          - list
+                          - get
+                      - apiGroups:
+                          - batch
+                        resources:
+                          - jobs
+                        verbs:
+                          - create
+                          - list
+                          - get
+                          - delete
+                          - deletecollection
+                      - apiGroups:
+                          - litmuschaos.io
+                        resources:
+                          - chaosengines
+                          - chaosexperiments
+                          - chaosresults
+                        verbs:
+                          - create
+                          - list
+                          - get
+                          - patch
+                          - update
+                          - delete
+                    image: litmuschaos/go-runner:fakedemo
+                    imagePullPolicy: IfNotPresent
+                    args:
+                      - -c
+                      - ./experiments -name chaos-demo
+                    command:
+                      - /bin/bash
+                    env:
+                      - name: TOTAL_CHAOS_DURATION
+                        value: "5"
+                    labels:
+                      name: "pod-kill-{{workflow.name}}"
+                      app.kubernetes.io/part-of: litmus
+                      app.kubernetes.io/component: experiment-job
+                      app.kubernetes.io/version: 2.8.0
+      container:
+        args:
+          - kubectl apply -f /tmp/chaos-demo-serial-a.yaml -n {{workflow.parameters.adminModeNamespace}} | sleep 5; echo "chaos experiment custom resources installed"
+        command:
+          - sh
+          - -c
+        image: litmuschaos/k8s:2.8.0
+        imagePullPolicy: IfNotPresent
+    - name: pod-delete
+      inputs:
+        artifacts:
+          - name: pod-delete
+            path: /tmp/chaosengine-pod-delete.yaml
+            raw:
+              data: |
+                apiVersion: litmuschaos.io/v1alpha1
+                kind: ChaosEngine
+                metadata:
+                  namespace: "{{workflow.parameters.adminModeNamespace}}"
+                  generateName: pod-delete
+                  labels:
+                    workflow_name: "{{workflow.name}}"
+                spec:
+                  appinfo:
+                    appns: litmus
+                    applabel: "name=dummy"
+                  annotationCheck: "false"
+                  defaultAppHealthCheck: "false"
+                  engineState: active
+                  chaosServiceAccount: litmus-admin
+                  experiments:
+                    - name: "pod-kill-{{workflow.creationTimestamp.H}}-{{workflow.creationTimestamp.M}}-{{workflow.creationTimestamp.S}}"
+                      spec:
+                        components:
+                          env:
+                            - name: TOTAL_CHAOS_DURATION
+                              value: "1"
+                            - name: RAMP_TIME
+                              value: "1"
+                            - name: CHAOS_INJECT_COMMAND
+                              value: "ls"
+                            - name: CHAOS_KILL_COMMAND
+                              value: "ls"
+      container:
+        args:
+          - -file=/tmp/chaosengine-pod-delete.yaml
+          - -saveName=/tmp/engine-name
+        image: litmuschaos/litmus-checker:fakedemo
+    - name: revert-chaos
+      container:
+        image: litmuschaos/k8s:latest
+        imagePullPolicy: IfNotPresent
+        command:
+          - sh
+          - -c
+        args:
+          - "kubectl delete chaosengine -l workflow_name={{workflow.name}} -n
+            {{workflow.parameters.adminModeNamespace}} "
+  podGC:
+    strategy: OnWorkflowCompletion
