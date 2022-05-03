@@ -3,6 +3,6 @@ experiments:
   - name: pod-delete
     CSV: pod-delete.chartserviceversion.yaml
     desc: "pod-delete"
-  - name: harness-pod-kill-failure
-    CSV: harness-pod-kill-failure.chartserviceversion.yaml
-    desc: "fake-workflow-failure-demo"
+  - name: harness-pod-chaos-demo
+    CSV: harness-pod-chaos-demo.chartserviceversion.yaml
+    desc: "fake-experiment-demo"

@@ -1,12 +1,12 @@
 apiVersion: litmuchaos.io/v1alpha1
 kind: ChartServiceVersion
 metadata:
-  name: harness-pod-kill-failure
+  name: harness-pod-chaos-demo
   version: 0.1.0
   annotations:
     categories: demo
 spec:
-  displayName: harness-pod-kill-failure
+  displayName: harness-pod-chaos-demo
   categoryDescription: >
     chaos-demo
   keywords:
@@ -31,4 +31,4 @@ spec:
   icon:
     - url:
       mediatype: ""
-  chaosexpcrdlink: https://raw.githubusercontent.com/chaosnative/harness-chaos-demo/main/charts/generic/charness-pod-kill-failure/experiment.yaml
+  chaosexpcrdlink: https://raw.githubusercontent.com/chaosnative/harness-chaos-demo/main/charts/generic/harness-pod-chaos-demo/experiment.yaml

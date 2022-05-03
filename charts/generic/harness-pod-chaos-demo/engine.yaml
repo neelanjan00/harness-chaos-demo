@@ -5,6 +5,7 @@ metadata:
   namespace: litmus
 spec:
   annotationCheck: "false"
+  defaultAppHealthCheck: "false"
   appinfo:
     appns: 'litmus'
     applabel: 'name=chaos-demo'
@@ -13,7 +14,7 @@ spec:
   chaosServiceAccount: litmus-admin
   jobCleanUpPolicy: 'retain'
   experiments:
-    - name: harness-pod-kill-failure
+    - name: harness-pod-chaos-demo
       spec:
         components:
           env:
