@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: litmus-grafana-datasources
+data:
+  prometheus.yaml: |-
+    {
+        "apiVersion": 1,
+        "datasources": [
+            {
+               "access":"proxy",
+                "editable": true,
+                "name": "DS_PROMETHEUS",
+                "orgId": 1,
+                "type": "prometheus",
+                "url": "http://prometheus-k8s:9090",
+                "version": 1
+            }
+        ]
+    }
