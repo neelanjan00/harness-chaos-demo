@@ -441,7 +441,7 @@ metadata:
   labels:
     app: cartservice
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: cartservice
@@ -454,7 +454,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: gcr.io/google-samples/microservices-demo/cartservice:v0.3.7
+        image: gcr.io/google-samples/microservices-demo/cartservice:v0.3.8
         ports:
         - containerPort: 7070
         env:
