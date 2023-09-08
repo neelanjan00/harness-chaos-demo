@@ -441,7 +441,8 @@ metadata:
   labels:
     app: cartservice
 spec:
-  replicas: 2
+  revisionHistoryLimit: 3
+  replicas: 1
   selector:
     matchLabels:
       app: cartservice
